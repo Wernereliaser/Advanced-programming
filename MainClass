@@ -1,2 +1,7 @@
 #include <iostream>
 #using namespace
+
+int main(){
+  cout<<"Hello gens....";
+  return 0;
+}
