@@ -1,8 +1,19 @@
 #include <iostream>
-#using namespace
+#include <map>
+
+using namespace std;
 
 int main(){
-  cout<<"Hello gens....";
-  return 0;
+	
+    map<int, string> group_members;
+    group_members[1] = "Eliphas";
+    group_members[2] =  "Werner";
+    group_members[3] = "Steven";
+    group_members[4] = "Ndeyapo";
+	
+     for (auto member: group_members){
+     	cout<<member.second<<endl;
+     }
+  
+    return 0;
 }
-#stephen
