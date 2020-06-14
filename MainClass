@@ -1,19 +1,296 @@
-#include <iostream>
-#include <map>
 
+    //Eliphas";
+    //Werner Eliaser : 218062958
+    //Steven";
+    //Ndeyapo";
+	
+#include <iostream>
+#include "Driver.h"
+#include "Customer.h"
+#include "Person.h"
+#include "TamplateClass.h"
+#include <vector>
+#include <ctime>
+#include <fstream>
 using namespace std;
 
-int main(){
-	
-    map<int, string> group_members;
-    group_members[1] = "Eliphas";
-    group_members[2] =  "Werner";
-    group_members[3] = "Steven";
-    group_members[4] = "Ndeyapo";
-	
-     for (auto member: group_members){
-     	cout<<member.second<<endl;
-     }
-  
-    return 0;
+//Template class
+template <class T> class ClassTemplate  {
+public:
+    Customer customer;
+    T fees;
+
+    ClassTemplate(T monthlyFee) {
+        fees = monthlyFee;
+    }
+
+    //template function
+    template <class T>
+    double  calculateFee(T days, T price) {
+        days = customer.numberOfDays;
+        price = customer.price;
+
+        fees = days * price;
+        cout << "Your monthly fee is: N$" << fees << endl;
+
+        return fees;
+    }
+};
+
+
+class Start {
+public :
+     vector<string> cust;
+     vector <string> driv;
+     
+    void Landing() {
+        Person p;
+        cout << "----------------------------------------------\n";
+        cout << "               Grab a Taxi app                 \n";
+        cout << "", p.currentTime();
+        cout << "" << endl;
+        cout << "----------------------------------------------\n";
+        cout << " 1. Signup           2. Login           3. Quit\n" << endl;
+        int option;
+        cout << "Option(1-2): ";
+        cin >> option;
+
+        if (option == 1)
+        {
+            cout << " 1. Customer               2. Driver \n" << endl;
+
+            cout << "Option(1-2): ";
+            cin >> option;
+
+            if (option == 1)
+            {
+                string fName, lName, pwd, usname;
+                cout << "First name: ";
+                cin >> fName;
+                cout << "Last name: ";
+                cin >> lName;
+                cout << "Username: ";
+                cin >> usname;
+                cout << "Password: ";
+                cin >> pwd;
+
+
+                //Passing the customer details to its object
+                Customer p;
+                p.firstName = fName;
+                p.lastName = lName;
+                p.password = pwd;
+                p.userName = usname;
+
+                //creating vector for a customer details
+                
+
+                //storing customer's deatails in a vector
+                cust.push_back(fName);
+                cust.push_back(lName);
+                cust.push_back(usname);
+                cust.push_back(pwd);
+
+                //saving details to a file 
+                ofstream filestream;
+                filestream.open("customerRegistration.txt");
+
+                filestream << usname << endl;
+                filestream << pwd << endl;
+                filestream.close();
+                cout << "Successfully signed up" << endl;
+                cout << "\n____________________________________________" << endl;
+                Landing();//back to the landing page
+            }
+            else if (option == 2) {
+                string fName, lName, username, pwd, licenceNumber;
+
+                cout << "First name: ";
+                cin >> fName;
+                cout << "Last name: ";
+                cin >> lName;
+                cout << "Username: ";
+                cin >> username;
+                cout << "Password: ";
+                cin >> pwd;
+                cout << "Licence number: ";
+                cin >> licenceNumber;
+
+                //passing the drivers's details to it's contructor
+                Driver d;
+                d.firstName = fName;
+                d.lastName = lName;
+                d.userName = username;
+                d.password = pwd;
+                d.licenceNumber = licenceNumber;
+
+                //storing the driver's details in a vector
+                
+                driv.push_back(fName);
+                driv.push_back(lName);
+                driv.push_back(username);
+                driv.push_back(pwd);
+                driv.push_back(licenceNumber);
+
+                ofstream filestream;
+                filestream.open("DriverRegistration.txt");
+
+                //saving the the driver's details to a file
+                filestream << username << endl;
+                filestream << pwd << endl;
+                filestream.close();
+                cout << "" << endl;
+                cout << "Successfully signed up" << endl;
+                cout << "\n_________________________________________________" << endl;
+                Landing();//back to the landing page
+            }
+           
+        }
+        else if (option == 2)
+        {
+            cout << "1. Customer                     2. Driver\n" << endl;
+            cout << "Option(1-2): ";
+            cin >> option;
+
+            string username, password;
+
+            if (option == 1)
+            {
+                cout << "------------------------------\n";
+                cout << "    Customer's login page \n";
+                cout << "------------------------------\n";
+                cout << "Username: ";
+                cin >> username;
+                cout << "Password: ";
+                cin >> password;
+
+                string usname, pwd;
+
+                //auhenticating the customer
+                ifstream file;
+                file.open("customerRegistration.txt");
+                file >> usname;
+                file >> pwd;
+
+                if (username == usname && password == pwd)
+                {
+                    cout << "Login successful\n\n1. Print reciept\n2. View details\n3. Enter option(1-2): ";
+                    int option;
+                    cin >> option;
+                    if (option == 1) 
+                    {  
+                    
+                        Customer c;
+                        c.printReciept();
+                        
+                        //Person h;
+                       // h.currentTime();
+                        cout <<"\n" << endl;
+                        Start t();
+                       
+                    }
+                    else if (option == 2) 
+                    {
+                        for (int i = 0; i < cust.size(); i++) { //printing out from the vector
+                            cout << cust[i] << endl;
+                        }
+                        cout << "\n" << endl;
+                        Start t();
+                        
+
+                    }
+                    else
+                    {
+                        cout << "Inalid Option\n" << endl;
+                       
+                        Start t();
+                    }
+                    //calculateMonthlyPrice();
+
+                }
+                else
+                {
+                    cout << "Invalid username or password\n______________________________\n";
+                }
+                
+                Landing(); //file.close();
+            }
+            else if (option == 2) {     ///Drivers log in page
+                cout << "-----------------------------------\n";
+                cout << "        Driver's login page            \n";
+                cout << "-----------------------------------\n";
+                string usname, pwd;
+                cout << " Username: ";
+                cin >> username;
+                cout << " Password: ";
+                cin >> password;
+
+                //authenticating the driver, getting pasword from a text file
+                ifstream driver;
+                driver.open("DriverRegistration.txt"); 
+                driver >> usname;
+                driver >> pwd;
+
+                if (username == usname && password == pwd)
+                {
+                    cout << "Login successful!\n1. View details\n2. Return\n3. Exit\n\nEnter option(1-3):";
+                    int option;
+                    cin >> option;
+                    if (option == 1)
+                    {
+                        for (int i = 0; i < driv.size(); i++) //printing out from the driver vector
+                        {
+                            cout << driv[i] << endl;
+                        }
+                        cout << "\n" << endl;
+                        
+                    }
+                    else if (option == 2) {
+                        Landing();
+                    }
+                    else if (option == 3) {
+                        exit(0);
+                    }
+                }
+                else {
+                    cout << "Invalid username or password!\n";
+                }
+                driver.close();
+               
+            }
+            Landing();
+        }
+        else if (option == 3) 
+        {
+        exit(0);
+        }
+        else {
+            cout << "Invalid option!\n";
+            cout << "1. Return            2. Exit" << endl;
+            int back;
+            cin >> back;
+            if (back == 1) {
+                Landing();
+            }
+            else {
+                exit(0);
+            }
+            
+
+        }
+
+    }
+
+};
+
+
+
+int main()//main method
+{
+    Start t;
+    t.Landing();
+
+        return 0;
+    
 }
+
